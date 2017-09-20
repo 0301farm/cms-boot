@@ -14,7 +14,7 @@ KCONFIG=default
 KCUSTOMCONFIG=
 
 # Kernel version.
-KVERS=3.17.4
+KVERS=4.9.51
 
 # Busybox config to use.
 # You can either use an existing config, or set the variable "BCUSTOMCONFIG"
@@ -24,10 +24,10 @@ BCONFIG=default
 BCUSTOMCONFIG=
 
 # Busybox version.
-BVERS=1.22.1
+BVERS=1.27.2
 
 # Parallelism level.
-PARALL=8
+PARALL=4
 
 # xz compression level.
 LVL=6
@@ -66,7 +66,7 @@ config/linux-${KCONFIG}:
 	test -f config/linux-${KCONFIG} || test "y" = "${KCUSTOMCONFIG}" && cp config/linux-default config/linux-${KCONFIG}
 
 sources/linux-${KVERS}.tar.xz: 
-	wget https://kernel.org/pub/linux/kernel/v3.x/linux-${KVERS}.tar.xz -O sources/linux-${KVERS}.tar.xz
+	wget https://kernel.org/pub/linux/kernel/v4.x/linux-${KVERS}.tar.xz -O sources/linux-${KVERS}.tar.xz
 
 sources/linux-${KVERS}: sources/linux-${KVERS}.tar.xz 
 	tar xf sources/linux-${KVERS}.tar.xz -C sources/
@@ -76,8 +76,8 @@ sources/linux-${KVERS}/arch/x86_64/boot/bzImage: sources/linux-${KVERS} target c
 	cp config/linux-${KCONFIG} sources/linux-${KVERS}/.config
 	chroot target /bin/bash -c "cd /build/linux-${KVERS}; yes '' | make -j${PARALL} oldconfig"
 	test "y" != "${KCUSTOMCONFIG}" || chroot target /bin/bash -c "cd /build/linux-${KVERS}; make -j${PARALL} menuconfig" && cp sources/linux-${KVERS}/.config config/linux-${KCONFIG}
-	chroot target /bin/bash -c "cd /build/linux-${KVERS}; yes '' | make -j${PARALL}"
 	$(umount_chroot)
+	cd sources/linux-${KVERS} && fakeroot make -j${PARALL} && cd ../../
 
 config/busybox-${BCONFIG}: 
 	test -f config/busybox-${BCONFIG} || test "y" = "${BCUSTOMCONFIG}" && cp config/busybox-default config/busybox-${BCONFIG}
