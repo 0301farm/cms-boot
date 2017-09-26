@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
     }
     for(int i=1; i<argc; i++) {
         add_torrent_params p;
-        p.save_path = "./";
+        p.save_path = "/storage/casper/";
         p.ti = new torrent_info(argv[i], ec);
         if (ec) {
             fprintf(stderr, "%s\n", ec.message().c_str());

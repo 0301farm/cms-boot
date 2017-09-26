@@ -42,12 +42,6 @@ clear
 gettorrent *.torrent || error "Failed to download torrent"
 sync
 
-for i in filesystem.squashfs kernel.img initrd.img
-do
-    cp $i ../casper/
-done
-sync
-
 IP=`ip addr show dev eth0 | grep -o 'inet\ [^\ /]*' | cut -d\  -f2`
 SUFFIX=`echo $IP | cut -d. -f4`
 HOSTNAME=`printf rig-%03d $SUFFIX`
