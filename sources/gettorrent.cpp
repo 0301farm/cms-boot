@@ -32,13 +32,10 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+
     session s;
     error_code ec;
     s.listen_on(make_pair(16881, 16889), ec);
-
-    s.start_dht();
-
-    s.add_dht_node(make_pair("10.0.0.1", 6881));
 
     if (ec) {
         fprintf(stderr, "failed to open listen socket: %s\n", ec.message().c_str());
