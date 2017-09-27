@@ -31,6 +31,11 @@ mkdir -p /storage/torrent
 rm -rf /storage/torrent/*.torrent
 IMAGE=`cat /proc/cmdline | grep -o 'imgname=[^\ ]*' | grep -o '[^=]*$'`
 
+cat /proc/cmdline | grep forcedownload
+FORCE_DOWNLOAD=$?
+
+[ $FORCE_DOWNLOAD -eq 0 ] && rm -rf /storage/casper/*
+
 cd /storage/torrent
 
 for i in filesystem.squashfs kernel.img initrd.img
