@@ -26,7 +26,9 @@ done
 mount | grep /storage || error "Failed to mount /storage"
 mkdir -p /storage/casper
 
-BASEURL='http://10.8.0.1/casper'
+SERVER=`cat /proc/cmdline | grep -o 'server=[^\ ]*' | grep -o '[^=]*$'`
+
+BASEURL="http://${SERVER}/casper"
 mkdir -p /storage/torrent
 rm -rf /storage/torrent/*.torrent
 IMAGE=`cat /proc/cmdline | grep -o 'imgname=[^\ ]*' | grep -o '[^=]*$'`
