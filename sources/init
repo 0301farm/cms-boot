@@ -55,4 +55,4 @@ RIG_NUMBER=`echo $IP | cut -d. -f4`
 HOSTNAME=`printf rig-%03d-%03d $ROOM_NUMBER $RIG_NUMBER`
 TZ=Europe/Rome
 cd /storage/casper
-kexec kernel.img initrd.img "boot=casper hostname=${HOSTNAME} timezone=${TZ}" || error "kexec failed!"
+kexec kernel.img initrd.img "boot=casper hostname=${HOSTNAME} timezone=${TZ} imgname=${IMAGE}" || error "kexec failed!"
