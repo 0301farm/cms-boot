@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Busybox version: 1.27.2
-# Tue Sep 26 08:53:56 2017
+# Sat Apr  7 13:38:53 2018
 #
 CONFIG_HAVE_DOT_CONFIG=y
 
@@ -396,7 +396,7 @@ CONFIG_DEFAULT_SETFONT_DIR=""
 # CONFIG_FEATURE_DIFF_DIR is not set
 # CONFIG_ED is not set
 # CONFIG_PATCH is not set
-# CONFIG_SED is not set
+CONFIG_SED=y
 # CONFIG_VI is not set
 CONFIG_FEATURE_VI_MAX_LEN=0
 # CONFIG_FEATURE_VI_8BIT is not set

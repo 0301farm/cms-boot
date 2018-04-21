@@ -5,6 +5,33 @@ error() {
     exec /bin/busybox sh
 }
 
+format() {
+sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | fdisk /dev/sda
+  d # delete
+  1 # number 1
+  d # delete
+  2 # number 2
+  d # delete
+  3 # number 3
+  d # delete
+  4 # number 4
+  d # delete
+  5 # number 5
+  n # new partition
+  p # primary partition
+  1 # partition number 1
+    # default - start at beginning of disk
+    # default, extend partition to end of disk
+  w # write the partition table
+  q # and we're done
+EOF
+
+# new fs (ext4 not available in busybox)
+mkfs.ext2 /dev/sda1
+# mount
+mount /dev/sda1 /storage
+}
+
 /bin/busybox mkdir -p /sys /proc /run /tmp /sbin
 
 /bin/busybox --install -s
@@ -23,6 +50,9 @@ do
     [ $sz -gt 1000000 ] && break # (sz in KB) => ~1GB
     umount /storage
 done
+# try to format the disk
+mount | grep /storage || format
+# error
 mount | grep /storage || error "Failed to mount /storage"
 mkdir -p /storage/casper
 
