@@ -2,7 +2,11 @@
 
 error() {
     echo ERROR! $1
-    exec /bin/busybox sh
+    sleep 10
+    # exec /bin/busybox sh
+
+    echo 1 > /proc/sys/kernel/sysrq
+    echo b > /proc/sysrq-trigger
 }
 
 format() {
@@ -85,4 +89,4 @@ RIG_NUMBER=`echo $IP | cut -d. -f4`
 HOSTNAME=`printf rig-%03d-%03d $ROOM_NUMBER $RIG_NUMBER`
 TZ=Europe/Rome
 cd /storage/casper
-kexec kernel.img initrd.img "boot=casper hostname=${HOSTNAME} timezone=${TZ} imgname=${IMAGE}" || error "kexec failed!"
+kexec kernel.img initrd.img "boot=casper hostname=${HOSTNAME} timezone=${TZ} imgname=${IMAGE} net.ifnames=0 biosdevname=0 amdgpu.ppfeaturemask=0xffffffff" || error "kexec failed!"
